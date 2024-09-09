@@ -7,11 +7,12 @@ public class Player : MonoBehaviour
     private float horizontal;
     private Rigidbody2D rb;
     private bool isFacingRight = true;
-    public Animator animator; 
+    private Animator animator; 
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = this.GetComponent<Rigidbody2D>();
+        animator = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -20,7 +21,12 @@ public class Player : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         Debug.Log(horizontal);
         this.rb.velocity = new Vector2(horizontal * 8f, rb.velocity.y);
-        animator.setFloat("speed", Mathf.abs(horizontal));
+        animator.SetFloat("speed", Mathf.Abs(horizontal));
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            this.rb.AddForce(Vector2.up * 20f, ForceMode2D.Impulse);
+        }
         Flip();
 
         /*
